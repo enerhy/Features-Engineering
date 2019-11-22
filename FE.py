@@ -1,3 +1,7 @@
+
+
+----------------Numerical Features
+
 For linear models to perform best, we need to account for non-Gaussian distributions. 
 Let's also evaluate here if a log transformation renders the variables more Gaussian looking
 
@@ -20,3 +24,31 @@ def analyse_transformed_continous(df, var):
     
 for var in cont_vars:
     analyse_transformed_continous(data, var)
+
+    
+--------Categorical Features-----------
+Categorical values to ordered numbers
+# this function will assign discrete values to the strings of the variables, 
+# so that the smaller value corresponds to the smaller mean of target
+
+def replace_categories(train, test, var, target):
+    ordered_labels = train.groupby([var])[target].mean().sort_values().index
+    ordinal_label = {k:i for i, k in enumerate(ordered_labels, 0)} 
+    train[var] = train[var].map(ordinal_label)
+    test[var] = test[var].map(ordinal_label)
+    
+for var in cat_vars:
+    replace_categories(X_train, X_test, var, 'SalePrice')
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
